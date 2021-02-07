@@ -1,249 +1,224 @@
-// import 'package:fbitcolor/data/sharedpref/constants/preferences.dart';
-// import 'package:fbitcolor/routes.dart';
-// import 'package:fbitcolor/stores/language/language_store.dart';
-// import 'package:fbitcolor/stores/post/post_store.dart';
-// import 'package:fbitcolor/stores/theme/theme_store.dart';
-// import 'package:fbitcolor/utils/locale/app_localization.dart';
-// import 'package:fbitcolor/widgets/progress_indicator_widget.dart';
-// import 'package:flushbar/flushbar_helper.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_mobx/flutter_mobx.dart';
-// import 'package:material_dialog/material_dialog.dart';
-// import 'package:provider/provider.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fbitcolor/constants/assets.dart';
+import 'package:fbitcolor/constants/colors.dart';
+import 'package:fbitcolor/constants/dimens.dart';
+import 'package:fbitcolor/constants/strings.dart';
+import 'package:fbitcolor/widgets/custom_slider.dart';
+import 'package:fbitcolor/widgets/custom_thumb.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-// class HomeScreen extends StatefulWidget {
-//   @override
-//   _HomeScreenState createState() => _HomeScreenState();
-// }
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
 
-// class _HomeScreenState extends State<HomeScreen> {
-//   //stores:---------------------------------------------------------------------
-//   PostStore _postStore;
-//   ThemeStore _themeStore;
-//   LanguageStore _languageStore;
+class _HomeState extends State<Home> {
+  bool _blackout;
+  double red, green, blue, brightness, speed, strobe, strobeSpeed;
 
-//   @override
-//   void initState() {
-//     super.initState();
-//   }
+  @override
+  void initState() {
+    _blackout = false;
+    red = 100;
+    green = 200;
+    blue = 211;
+    brightness = 33;
+    speed = 32;
+    strobe = 212;
+    strobeSpeed = 221;
+    super.initState();
+  }
 
-//   @override
-//   void didChangeDependencies() {
-//     super.didChangeDependencies();
-
-//     // initializing stores
-//     _languageStore = Provider.of<LanguageStore>(context);
-//     _themeStore = Provider.of<ThemeStore>(context);
-//     _postStore = Provider.of<PostStore>(context);
-
-//     // check to see if already called api
-//     if (!_postStore.loading) {
-//       _postStore.getPosts();
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: _buildAppBar(),
-//       body: _buildBody(),
-//     );
-//   }
-
-//   // app bar methods:-----------------------------------------------------------
-//   Widget _buildAppBar() {
-//     return AppBar(
-//       title: Text(AppLocalizations.of(context).translate('home_tv_posts')),
-//       actions: _buildActions(context),
-//     );
-//   }
-
-//   List<Widget> _buildActions(BuildContext context) {
-//     return <Widget>[
-//       _buildLanguageButton(),
-//       _buildThemeButton(),
-//       _buildLogoutButton(),
-//     ];
-//   }
-
-//   Widget _buildThemeButton() {
-//     return Observer(
-//       builder: (context) {
-//         return IconButton(
-//           onPressed: () {
-//             _themeStore.changeBrightnessToDark(!_themeStore.darkMode);
-//           },
-//           icon: Icon(
-//             _themeStore.darkMode ? Icons.brightness_5 : Icons.brightness_3,
-//           ),
-//         );
-//       },
-//     );
-//   }
-
-//   Widget _buildLogoutButton() {
-//     return IconButton(
-//       onPressed: () {
-//         SharedPreferences.getInstance().then((preference) {
-//           preference.setBool(Preferences.is_logged_in, false);
-//           Navigator.of(context).pushReplacementNamed(Routes.login);
-//         });
-//       },
-//       icon: Icon(
-//         Icons.power_settings_new,
-//       ),
-//     );
-//   }
-
-//   Widget _buildLanguageButton() {
-//     return IconButton(
-//       onPressed: () {
-//         _buildLanguageDialog();
-//       },
-//       icon: Icon(
-//         Icons.language,
-//       ),
-//     );
-//   }
-
-//   // body methods:--------------------------------------------------------------
-//   Widget _buildBody() {
-//     return Stack(
-//       children: <Widget>[
-//         _handleErrorMessage(),
-//         _buildMainContent(),
-//       ],
-//     );
-//   }
-
-//   Widget _buildMainContent() {
-//     return Observer(
-//       builder: (context) {
-//         return _postStore.loading
-//             ? CustomProgressIndicatorWidget()
-//             : Material(child: _buildListView());
-//       },
-//     );
-//   }
-
-//   Widget _buildListView() {
-//     return _postStore.postList != null
-//         ? ListView.separated(
-//             itemCount: _postStore.postList.posts.length,
-//             separatorBuilder: (context, position) {
-//               return Divider();
-//             },
-//             itemBuilder: (context, position) {
-//               return _buildListItem(position);
-//             },
-//           )
-//         : Center(
-//             child: Text(
-//               AppLocalizations.of(context).translate('home_tv_no_post_found'),
-//             ),
-//           );
-//   }
-
-//   Widget _buildListItem(int position) {
-//     return ListTile(
-//       dense: true,
-//       leading: Icon(Icons.cloud_circle),
-//       title: Text(
-//         '${_postStore.postList.posts[position].title}',
-//         maxLines: 1,
-//         overflow: TextOverflow.ellipsis,
-//         softWrap: false,
-//         style: Theme.of(context).textTheme.title,
-//       ),
-//       subtitle: Text(
-//         '${_postStore.postList.posts[position].body}',
-//         maxLines: 1,
-//         overflow: TextOverflow.ellipsis,
-//         softWrap: false,
-//       ),
-//     );
-//   }
-
-//   Widget _handleErrorMessage() {
-//     return Observer(
-//       builder: (context) {
-//         if (_postStore.errorStore.errorMessage.isNotEmpty) {
-//           return _showErrorMessage(_postStore.errorStore.errorMessage);
-//         }
-
-//         return SizedBox.shrink();
-//       },
-//     );
-//   }
-
-//   // General Methods:-----------------------------------------------------------
-//   _showErrorMessage(String message) {
-//     Future.delayed(Duration(milliseconds: 0), () {
-//       if (message != null && message.isNotEmpty) {
-//         FlushbarHelper.createError(
-//           message: message,
-//           title: AppLocalizations.of(context).translate('home_tv_error'),
-//           duration: Duration(seconds: 3),
-//         )..show(context);
-//       }
-//     });
-
-//     return SizedBox.shrink();
-//   }
-
-//   _buildLanguageDialog() {
-//     _showDialog<String>(
-//       context: context,
-//       child: MaterialDialog(
-//         borderRadius: 5.0,
-//         enableFullWidth: true,
-//         title: Text(
-//           AppLocalizations.of(context).translate('home_tv_choose_language'),
-//           style: TextStyle(
-//             color: Colors.white,
-//             fontSize: 16.0,
-//           ),
-//         ),
-//         headerColor: Theme.of(context).primaryColor,
-//         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-//         closeButtonColor: Colors.white,
-//         enableCloseButton: true,
-//         enableBackButton: false,
-//         onCloseButtonClicked: () {
-//           Navigator.of(context).pop();
-//         },
-//         children: _languageStore.supportedLanguages
-//             .map(
-//               (object) => ListTile(
-//                 dense: true,
-//                 contentPadding: EdgeInsets.all(0.0),
-//                 title: Text(
-//                   object.language,
-//                   style: TextStyle(
-//                     color: _languageStore.locale == object.locale
-//                         ? Theme.of(context).primaryColor
-//                         : _themeStore.darkMode ? Colors.white : Colors.black,
-//                   ),
-//                 ),
-//                 onTap: () {
-//                   Navigator.of(context).pop();
-//                   // change user language based on selected locale
-//                   _languageStore.changeLanguage(object.locale);
-//                 },
-//               ),
-//             )
-//             .toList(),
-//       ),
-//     );
-//   }
-
-//   _showDialog<T>({BuildContext context, Widget child}) {
-//     showDialog<T>(
-//       context: context,
-//       builder: (BuildContext context) => child,
-//     ).then<void>((T value) {
-//       // The value passed to Navigator.pop() or null.
-//     });
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                    padding: EdgeInsets.only(left: 10.0),
+                    decoration: BoxDecoration(
+                      borderRadius:
+                          BorderRadius.circular(Dimens.containerBorderRadius),
+                      color: Theme.of(context).backgroundColor,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(Strings.blackout),
+                        Transform.scale(
+                          scale: 0.8,
+                          child: CupertinoSwitch(
+                              value: _blackout,
+                              trackColor:
+                                  Theme.of(context).scaffoldBackgroundColor,
+                              onChanged: (value) {
+                                setState(() {
+                                  _blackout = value;
+                                });
+                              }),
+                        ),
+                      ],
+                    )),
+                Spacer(),
+                IconButton(icon: Icon(Icons.ac_unit), onPressed: () {}),
+              ],
+            ),
+            SizedBox(
+              height: Dimens.sizedBoxHeight * 2,
+            ),
+            Row(
+              children: [
+                Expanded(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      Strings.nowPlaying,
+                      style: TextStyle(color: AppColors.orangeColor),
+                    ),
+                    SizedBox(height: Dimens.sizedBoxHeight),
+                    Stack(
+                      children: [
+                        ClipRRect(
+                            borderRadius:
+                                BorderRadius.circular(Dimens.imageBorderRadius),
+                            child: Image.asset(
+                              Assets.carBackground,
+                            )),
+                        Positioned(
+                            left: 10,
+                            bottom: 10,
+                            child: Text(
+                              "17",
+                              style: TextStyle(
+                                  color: AppColors.whiteColor,
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold),
+                            ))
+                      ],
+                    )
+                  ],
+                )),
+                SizedBox(width: 10.0),
+                Expanded(
+                    child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(Strings.singleColor),
+                        Spacer(),
+                        Transform.scale(
+                          scale: 0.8,
+                          child: CupertinoButton(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 0),
+                            child: Text("Use",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.whiteColor,
+                                )),
+                            onPressed: null,
+                            color: AppColors.orangeColor,
+                            disabledColor: AppColors.orangeColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      height: 150,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.orangeColor,
+                      ),
+                    )
+                  ],
+                )),
+              ],
+            ),
+            SizedBox(height: Dimens.sizedBoxHeight),
+            Container(
+              padding: EdgeInsets.all(10.0),
+              height: 250,
+              decoration: BoxDecoration(
+                color: AppColors.primaryBackgroundColor,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                SliderWidget(
+                  activeTrackColor: Colors.red,
+                  initialValue: red,
+                  onValueChanged: (value) {
+                    setState(() {
+                      red = value;
+                    });
+                  },
+                ),
+                SliderWidget(
+                  activeTrackColor: Colors.green,
+                  initialValue: green,
+                  onValueChanged: (value) {
+                    setState(() {
+                      green = value;
+                    });
+                  },
+                ),
+                SliderWidget(
+                  activeTrackColor: Colors.blue,
+                  initialValue: blue,
+                  onValueChanged: (value) {
+                    setState(() {
+                      blue = value;
+                    });
+                  },
+                ),
+                SliderWidget(
+                  activeTrackColor: Colors.grey,
+                  initialValue: brightness,
+                  onValueChanged: (value) {
+                    setState(() {
+                      red = value;
+                    });
+                  },
+                ),
+                SliderWidget(
+                  activeTrackColor: Colors.red,
+                  initialValue: red,
+                  onValueChanged: (value) {
+                    setState(() {
+                      red = value;
+                    });
+                  },
+                ),
+                SliderWidget(
+                  activeTrackColor: Colors.red,
+                  initialValue: red,
+                  onValueChanged: (value) {
+                    setState(() {
+                      red = value;
+                    });
+                  },
+                ),
+                SliderWidget(
+                  activeTrackColor: Colors.red,
+                  initialValue: red,
+                  onValueChanged: (value) {
+                    setState(() {
+                      red = value;
+                    });
+                  },
+                ),
+              
+               ]),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

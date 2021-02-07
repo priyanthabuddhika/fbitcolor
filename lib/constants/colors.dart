@@ -15,4 +15,11 @@ class AppColors {
     800: const Color(0xFFDB7424),
     900: const Color(0xFFD56217)
   };
+
+  static const Color scaffoldBackgroundColor = Colors.black;
+  static const Color primaryBackgroundColor = const Color(0xFF1A1A1A);
+  static const Color orangeColor = const Color(0xFFEF6E52);
+  static const Color whiteColor = Colors.white;
+
+  static const Color sliderBackgroundColor = const Color(0xFF282828);
 }

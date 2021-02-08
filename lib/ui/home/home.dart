@@ -148,73 +148,79 @@ class _HomeState extends State<Home> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                SliderWidget(
-                  activeTrackColor: Colors.red,
-                  initialValue: red,
-                  onValueChanged: (value) {
-                    setState(() {
-                      red = value;
-                    });
-                  },
-                ),
-                SliderWidget(
-                  activeTrackColor: Colors.green,
-                  initialValue: green,
-                  onValueChanged: (value) {
-                    setState(() {
-                      green = value;
-                    });
-                  },
-                ),
-                SliderWidget(
-                  activeTrackColor: Colors.blue,
-                  initialValue: blue,
-                  onValueChanged: (value) {
-                    setState(() {
-                      blue = value;
-                    });
-                  },
-                ),
-                SliderWidget(
-                  activeTrackColor: Colors.grey,
-                  initialValue: brightness,
-                  onValueChanged: (value) {
-                    setState(() {
-                      red = value;
-                    });
-                  },
-                ),
-                SliderWidget(
-                  activeTrackColor: Colors.red,
-                  initialValue: red,
-                  onValueChanged: (value) {
-                    setState(() {
-                      red = value;
-                    });
-                  },
-                ),
-                SliderWidget(
-                  activeTrackColor: Colors.red,
-                  initialValue: red,
-                  onValueChanged: (value) {
-                    setState(() {
-                      red = value;
-                    });
-                  },
-                ),
-                SliderWidget(
-                  activeTrackColor: Colors.red,
-                  initialValue: red,
-                  onValueChanged: (value) {
-                    setState(() {
-                      red = value;
-                    });
-                  },
-                ),
-              
-               ]),
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SliderWidget(
+                      title: "RED",
+                      activeTrackColor: Colors.red,
+                      initialValue: red,
+                      onValueChanged: (value) {
+                        setState(() {
+                          red = value;
+                        });
+                      },
+                    ),
+                    SliderWidget(
+                      title: "GREEN",
+                      activeTrackColor: Colors.green,
+                      initialValue: green,
+                      onValueChanged: (value) {
+                        setState(() {
+                          green = value;
+                        });
+                      },
+                    ),
+                    SliderWidget(
+                      title: "BLUE",
+                      activeTrackColor: Colors.blue,
+                      initialValue: blue,
+                      onValueChanged: (value) {
+                        setState(() {
+                          blue = value;
+                        });
+                      },
+                    ),
+                    SliderWidget(
+                      title: "BG",
+                      activeTrackColor: Colors.grey,
+                      initialValue: brightness,
+                      onValueChanged: (value) {
+                        setState(() {
+                          brightness = value;
+                        });
+                      },
+                    ),
+                    SliderWidget(
+                      title: ">>",
+                      activeTrackColor: Colors.grey,
+                      initialValue: speed,
+                      onValueChanged: (value) {
+                        setState(() {
+                          speed = value;
+                        });
+                      },
+                    ),
+                    SliderWidget(
+                      title: "STROB",
+                      activeTrackColor: Colors.grey,
+                      initialValue: strobe,
+                      onValueChanged: (value) {
+                        setState(() {
+                          strobe = value;
+                        });
+                      },
+                    ),
+                    SliderWidget(
+                      title: "STROB >>",
+                      activeTrackColor: Colors.grey,
+                      initialValue: strobeSpeed,
+                      onValueChanged: (value) {
+                        setState(() {
+                          strobeSpeed = value;
+                        });
+                      },
+                    ),
+                  ]),
             ),
           ],
         ),

@@ -31,6 +31,7 @@ class _SliderWidgetState extends State<SliderWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
+        Text(widget.title),
         Expanded(
           child: RotatedBox(
             quarterTurns: 3,
@@ -43,8 +44,9 @@ class _SliderWidgetState extends State<SliderWidget> {
                 // trackShape: CustomTrackShape(),
 
                 thumbShape: CustomSliderThumbRect(
-                  thumbRadius: 10,
+                  thumbRadius: 15,
                   thumbHeight: 35,
+                  
                 ),
 
                 overlayColor: Colors.white.withOpacity(0),

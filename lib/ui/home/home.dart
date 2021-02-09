@@ -222,6 +222,64 @@ class _HomeState extends State<Home> {
                     ),
                   ]),
             ),
+            SizedBox(
+              height: Dimens.sizedBoxHeight,
+            ),
+            Row(children: [
+              Text(Strings.patterns,
+                  style: TextStyle(color: AppColors.orangeColor)),
+            ]),
+            SizedBox(height: Dimens.sizedBoxHeight),
+            Container(
+              height: 100,
+              child: ListView.builder(
+                itemCount: 10,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (BuildContext context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Stack(children: [
+                      Image.asset("assets/images/img_login.jpg"),
+                      Positioned.fill(
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            "${index + 1}",
+                            style: TextStyle(fontSize: 50),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ]),
+                  );
+                },
+              ),
+            ),
+            Container(
+              height: 100,
+              child: ListView.builder(
+                itemCount: 10,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (BuildContext context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Stack(children: [
+                      Image.asset("assets/images/img_login.jpg"),
+                      Positioned.fill(
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            "${index + 1}",
+                            style: TextStyle(fontSize: 50),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ]),
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),

@@ -10,5 +10,7 @@ class Strings {
   static const String nowPlaying = "Now playing";
 
   static const String singleColor = "Single Color";
+  static const String patterns = "Patterns";
+  
   
 }
